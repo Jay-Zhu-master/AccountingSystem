@@ -37,4 +37,7 @@ void MainWindow::flushSavingsTabView(){
     QSqlQuery query;
     this->ui->saingsTabView->clearSpans();
     query.exec(sql);
+    while (query.next()) {
+        this->ui->saingsTabView.
+    }
 }

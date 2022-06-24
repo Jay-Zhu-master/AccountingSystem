@@ -16,13 +16,16 @@ public:
     ~AddSavingsDialog();
     void setDB(QSqlDatabase db);
 
+
 private:
     Ui::AddSavingsDialog *ui;
     QSqlDatabase db;
+    int user_id;
 private slots:
     void on_conformBtn_clicked();
     void on_returnBtn_clicked();
     void receiveAddSavings();
+    void setUserId(int user_id);
 signals:
     void returnMain();
 };

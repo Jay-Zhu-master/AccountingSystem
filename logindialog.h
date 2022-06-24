@@ -16,10 +16,12 @@ public:
     explicit LoginDialog(QWidget *parent = nullptr);
     ~LoginDialog();
     void setDB(QSqlDatabase db);
+    int getUserId();
 
 private:
     Ui::LoginDialog *ui;
     QSqlDatabase db;
+    int user_id;
 private slots:
     void receiveReturn();
     void on_loginBtn_clicked();
@@ -27,7 +29,7 @@ private slots:
     void on_quitBtn_clicked();
 
 signals:
-    void loginSuccess();
+    void loginSuccess(int user_id);
     void quit();
     void registSignal();
 };

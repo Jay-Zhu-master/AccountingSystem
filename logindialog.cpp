@@ -49,7 +49,9 @@ void LoginDialog::on_loginBtn_clicked(){
         return;
     }
     this->hide();
-    emit loginSuccess();
+    qDebug() << query.value("user_id");
+    this->user_id = query.value("user_id").toInt();
+    emit loginSuccess(this->user_id);
 }
 void LoginDialog::on_registBtn_clicked(){
     this->hide();
@@ -57,4 +59,7 @@ void LoginDialog::on_registBtn_clicked(){
 }
 void LoginDialog::on_quitBtn_clicked(){
     emit quit();
+}
+int LoginDialog::getUserId(){
+    return this->user_id;
 }
