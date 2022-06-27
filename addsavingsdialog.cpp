@@ -26,7 +26,7 @@ void AddSavingsDialog::setDB(QSqlDatabase db){
 void AddSavingsDialog::on_conformBtn_clicked(){
     QSqlQuery query;
     QString sql;
-    QRegExp rx("^[0-9]+(.[0-9]{1,2})?$");
+    QRegExp rx("-?[0-9]+(.[0-9]{1,2})?$");
     if(this->ui->savingSystemLE->text() == ""){
         QMessageBox::warning(this,"注意！","请输入存款位置！");
     }
@@ -35,14 +35,16 @@ void AddSavingsDialog::on_conformBtn_clicked(){
         return;
     }
     sql = QString("insert into user_savings(user_id,saving_system,balance) values (%1,'%2',%3);")
-            .arg(this->user_id).arg(this->ui->savingSystemLE->text()).arg(this->ui->balanceLE->text());
+            .arg(this->user_id).arg(this->ui->savingSystemLE->text()).arg(this->ui->balanceLE->text().toDouble());
     qDebug() << sql;
+
     if(query.exec(sql)){
         QMessageBox::information(this,"提示","添加成功!");
     }else{
         QMessageBox::information(this,"提示","添加失败，请重试!");
         return;
     }
+    emit flushSavings();
     this->hide();
 }
 void AddSavingsDialog::on_returnBtn_clicked(){

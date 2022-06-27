@@ -1,3 +1,4 @@
+
 #include "registdialog.h"
 #include "ui_registdialog.h"
 #include "dbsetting.h"

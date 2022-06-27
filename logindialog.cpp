@@ -6,6 +6,8 @@ LoginDialog::LoginDialog(QWidget *parent) :
     ui(new Ui::LoginDialog)
 {
     ui->setupUi(this);
+    this->ui->usernameLE->setText("jayzhu");
+    this->ui->passwordLE->setText("jayzhu");
 }
 
 LoginDialog::~LoginDialog()

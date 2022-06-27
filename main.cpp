@@ -18,13 +18,13 @@ int main(int argc, char *argv[])
     registDig.setDB(db.getDb());
     loginDig.setDB(db.getDb());
 
-    QObject::connect(&loginDig,SIGNAL(loginSuccess(int)),&mainWd,SLOT(mainWinodwResiveShow()));
+    QObject::connect(&loginDig,SIGNAL(loginSuccess(int)),&mainWd,SLOT(receiveLogin(int)));
     QObject::connect(&loginDig,SIGNAL(registSignal()),&registDig,SLOT(receiveRegist()));
     QObject::connect(&registDig,SIGNAL(returnLogin()),&loginDig,SLOT(receiveReturn()));
     QObject::connect(&loginDig,SIGNAL(quit()),&a,SLOT(quit()));
     QObject::connect(&mainWd,SIGNAL(addSavings()),&addSavingsDig,SLOT(receiveAddSavings()));
     QObject::connect(&loginDig,SIGNAL(loginSuccess(int)),&addSavingsDig,SLOT(setUserId(int)));
-    QObject::connect(&loginDig,SIGNAL(loginSuccess(int)),&mainWd,SLOT(setUserId(int)));
+    QObject::connect(&addSavingsDig,SIGNAL(flushSavings()),&mainWd,SLOT(receiveFlush()));
     loginDig.show();
     return a.exec();
 }

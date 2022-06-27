@@ -26,8 +26,10 @@ private:
 private slots:
     void on_flushSavingsBtn_clicked();
     void on_addSavingsBtn_clicked();
-    void mainWinodwResiveShow();
-    void setUserId(int user_id);
+    void on_delSavingsBtn_clicked();
+    void on_modifyBtn_clicked();
+    void receiveLogin(int user_id);
+    void receiveFlush();
 
 signals:
     void addSavings();

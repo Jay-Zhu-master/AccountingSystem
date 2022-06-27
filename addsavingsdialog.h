@@ -27,7 +27,7 @@ private slots:
     void receiveAddSavings();
     void setUserId(int user_id);
 signals:
-    void returnMain();
+    void flushSavings();
 };
 
 #endif // ADDSAVINGSDIALOG_H
