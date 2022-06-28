@@ -22,6 +22,7 @@ SOURCES += \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
+    modifysavingsdialog.cpp \
     registdialog.cpp
 
 HEADERS += \
@@ -29,12 +30,14 @@ HEADERS += \
     dbsetting.h \
     logindialog.h \
     mainwindow.h \
+    modifysavingsdialog.h \
     registdialog.h
 
 FORMS += \
     addsavingsdialog.ui \
     logindialog.ui \
     mainwindow.ui \
+    modifysavingsdialog.ui \
     registdialog.ui
 
 # Default rules for deployment.

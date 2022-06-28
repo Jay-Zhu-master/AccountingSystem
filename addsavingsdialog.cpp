@@ -29,6 +29,7 @@ void AddSavingsDialog::on_conformBtn_clicked(){
     QRegExp rx("-?[0-9]+(.[0-9]{1,2})?$");
     if(this->ui->savingSystemLE->text() == ""){
         QMessageBox::warning(this,"注意！","请输入存款位置！");
+        return;
     }
     if(! rx.exactMatch(this->ui->balanceLE->text())){
         QMessageBox::warning(this,"注意！","金额格式不正确!");
@@ -51,7 +52,8 @@ void AddSavingsDialog::on_returnBtn_clicked(){
     this->hide();
 }
 
-void AddSavingsDialog::receiveAddSavings(){
+void AddSavingsDialog::receiveAdd(){
+    this->setWindowModality(Qt::ApplicationModal);
     this->ui->savingSystemLE->setText("");
     this->ui->balanceLE->setText("");
     this->show();

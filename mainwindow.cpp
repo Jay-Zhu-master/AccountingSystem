@@ -39,7 +39,8 @@ void MainWindow::on_delSavingsBtn_clicked(){
         return;
     }
     for(int i = 0; i < this->ui->savingsTabWidgets->selectedItems().length(); i++){
-        sql = QString("delete from user_savings where id = %1").arg(this->ui->savingsTabWidgets->item(1,this->ui->savingsTabWidgets->selectedItems()[i]->column())->text());
+        sql = QString("delete from user_savings where id = %1").
+                arg(this->ui->savingsTabWidgets->item(1,this->ui->savingsTabWidgets->selectedItems()[i]->column())->text());
         qDebug() << sql;
         query.exec(sql);
     }
@@ -47,7 +48,17 @@ void MainWindow::on_delSavingsBtn_clicked(){
     this->flushSavingsTabView();
 }
 void MainWindow::on_modifyBtn_clicked(){
-
+    if(this->ui->savingsTabWidgets->selectedItems().length() == 0){
+        QMessageBox::information(this,"提示","请单击选择需要修改的数据！");
+        return;
+    }
+    if(this->ui->savingsTabWidgets->selectedItems().length() > 1){
+        QMessageBox::information(this,"提示","只能选择一个修改！");
+        return;
+    }
+    emit modifySavings(this->ui->savingsTabWidgets->item(1,this->ui->savingsTabWidgets->selectedItems()[0]->column())->text().toInt()
+            ,this->ui->savingsTabWidgets->horizontalHeaderItem(this->ui->savingsTabWidgets->selectedItems()[0]->column())->text()
+            ,this->ui->savingsTabWidgets->item(0,this->ui->savingsTabWidgets->selectedItems()[0]->column())->text());
 }
 
 void MainWindow::flushSavingsTabView(){

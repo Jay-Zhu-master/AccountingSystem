@@ -33,5 +33,6 @@ private slots:
 
 signals:
     void addSavings();
+    void modifySavings(int saving_id,QString savingsSystem,QString balance);
 };
 #endif // MAINWINDOW_H
