@@ -26,12 +26,13 @@ private:
 
 
 private slots:
-    void receiveModify(int saving_id,QString savingsSystem,QString balance);
     void on_conformBtn_clicked();
     void on_returnBtn_clicked();
+public slots:
+    void receiveModify(int saving_id,QString savingsSystem,QString balance);
 
 signals:
-    void flushSavings();
+    void flushMainWindow();
 };
 
 #endif // MODIFYSAVINGSDIALOG_H

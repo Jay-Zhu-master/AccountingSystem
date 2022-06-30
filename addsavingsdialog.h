@@ -24,10 +24,11 @@ private:
 private slots:
     void on_conformBtn_clicked();
     void on_returnBtn_clicked();
+public slots:
     void receiveAdd();
     void setUserId(int user_id);
 signals:
-    void flushSavings();
+    void flushMainWindow();
 };
 
 #endif // ADDSAVINGSDIALOG_H

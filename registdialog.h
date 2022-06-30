@@ -21,9 +21,10 @@ private:
     Ui::RegistDialog *ui;
     QSqlDatabase db;
 private slots:
-    void receiveRegist();
     void on_conformBtn_clicked();
     void on_returnBtn_clicked();
+public slots:
+    void receiveRegist();
 
 signals:
     void returnLogin();

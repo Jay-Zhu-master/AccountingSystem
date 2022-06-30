@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
+#include <QHeaderView>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,6 +20,7 @@ void MainWindow::setDB(QSqlDatabase db){
 
 void MainWindow::on_flushSavingsBtn_clicked(){
     this->flushSavingsTabView();
+    this->flushConsumeRecordTabView();
 }
 
 void MainWindow::on_addSavingsBtn_clicked(){
@@ -28,6 +30,7 @@ void MainWindow::on_addSavingsBtn_clicked(){
 void MainWindow::receiveLogin(int user_id){
     this->user_id = user_id;
     this->flushSavingsTabView();
+    this->flushConsumeRecordTabView();
     this->show();
 }
 
@@ -61,16 +64,25 @@ void MainWindow::on_modifyBtn_clicked(){
             ,this->ui->savingsTabWidgets->item(0,this->ui->savingsTabWidgets->selectedItems()[0]->column())->text());
 }
 
+void MainWindow::on_selectRecordBtn_clicked(){}
+void MainWindow::on_addRecordBtn_clicked(){
+    emit AddConsume(this->user_id,this->saving_system);
+}
+void MainWindow::on_modifyRecordBtn_clicked(){}
+void MainWindow::on_deleteRecordBtn_clicked(){}
+
 void MainWindow::flushSavingsTabView(){
     QString sql = QString("select * from user_savings where user_id = %1 order by id asc;").arg(this->user_id);
     QSqlQuery query;
     QStringList stringList;
     this->ui->savingsTabWidgets->clear();
+    this->saving_system.clear();
     qDebug() << sql;
     query.exec(sql);
     this->ui->savingsTabWidgets->setRowCount(2);
     this->ui->savingsTabWidgets->setColumnCount(0);
     while (query.next()) {
+        this->saving_system.insert(query.value("saving_system").toString(),query.value("id").toInt());
         this->ui->savingsTabWidgets->setColumnCount(this->ui->savingsTabWidgets->columnCount()+1);
         stringList.append(query.value("saving_system").toString());
         this->ui->savingsTabWidgets->setHorizontalHeaderLabels(stringList);
@@ -82,6 +94,33 @@ void MainWindow::flushSavingsTabView(){
     this->ui->savingsTabWidgets->hideRow(1);
 }
 
+void MainWindow::flushConsumeRecordTabView(){
+    QSqlQuery query;
+    QString sql;
+
+    this->ui->recordTableWidget->clearContents();
+    this->ui->recordTableWidget->setRowCount(0);
+    sql = QString("SELECT id, user_id, name, saving_system, saving_system_id, consume_mode,money, detail, date_format(consume_time,'%Y/%m/%d %H:%i:%s') consume_time, create_time"
+                  " FROM accounting_system.expense_calendar where user_id = %1 order by consume_time desc;").arg(this->user_id);
+    qDebug() << sql;
+    query.exec(sql);
+    qDebug() << query.lastError().type();
+    qDebug() << query.lastError().text();
+
+    while(query.next()){
+        this->ui->recordTableWidget->setRowCount(this->ui->recordTableWidget->rowCount()+1);
+        this->ui->recordTableWidget->setItem(this->ui->recordTableWidget->rowCount()-1,0,new QTableWidgetItem(query.value("name").toString()));
+        this->ui->recordTableWidget->setItem(this->ui->recordTableWidget->rowCount()-1,1,new QTableWidgetItem(query.value("saving_system").toString()));
+        this->ui->recordTableWidget->setItem(this->ui->recordTableWidget->rowCount()-1,2,new QTableWidgetItem(QString(query.value("consume_mode").toInt() == 1 ? "-" : "+") +  query.value("money").toString()));
+        this->ui->recordTableWidget->setItem(this->ui->recordTableWidget->rowCount()-1,3,new QTableWidgetItem(query.value("detail").toString()));
+        this->ui->recordTableWidget->setItem(this->ui->recordTableWidget->rowCount()-1,4,new QTableWidgetItem(query.value("consume_time").toString()));
+    }
+    this->ui->recordTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    this->ui->recordTableWidget->horizontalHeader()->setSectionResizeMode(4,QHeaderView::ResizeToContents);
+}
+
+
 void MainWindow::receiveFlush(){
     this->flushSavingsTabView();
+    this->flushConsumeRecordTabView();
 }

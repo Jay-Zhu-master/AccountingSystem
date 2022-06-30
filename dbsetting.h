@@ -4,6 +4,7 @@
 #include <QtSql/QSqlDatabase>
 #include <QDebug>
 #include <QSqlQuery>
+#include <QSqlError>
 
 
 class DBSetting

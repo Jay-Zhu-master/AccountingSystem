@@ -23,9 +23,10 @@ private:
     QSqlDatabase db;
     int user_id;
 private slots:
-    void receiveReturn();
     void on_loginBtn_clicked();
     void on_registBtn_clicked();
+public slots:
+    void receiveReturn();
     void on_quitBtn_clicked();
 
 signals:

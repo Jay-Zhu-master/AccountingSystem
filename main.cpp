@@ -4,6 +4,7 @@
 #include "registdialog.h"
 #include "addsavingsdialog.h"
 #include "modifysavingsdialog.h"
+#include "addconsumerecorddialog.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
@@ -14,6 +15,7 @@ int main(int argc, char *argv[])
     RegistDialog registDig;
     AddSavingsDialog addSavingsDig;
     ModifySavingsDialog modifySavingsDig;
+    AddConsumeRecordDialog addConsumeRecordDig;
     DBSetting db;
 
     mainWd.setDB(db.getDb());
@@ -21,15 +23,17 @@ int main(int argc, char *argv[])
     loginDig.setDB(db.getDb());
     modifySavingsDig.setDb(db.getDb());
 
-    QObject::connect(&loginDig,SIGNAL(loginSuccess(int)),&mainWd,SLOT(receiveLogin(int)));
-    QObject::connect(&loginDig,SIGNAL(registSignal()),&registDig,SLOT(receiveRegist()));
-    QObject::connect(&registDig,SIGNAL(returnLogin()),&loginDig,SLOT(receiveReturn()));
-    QObject::connect(&loginDig,SIGNAL(quit()),&a,SLOT(quit()));
-    QObject::connect(&mainWd,SIGNAL(addSavings()),&addSavingsDig,SLOT(receiveAdd()));
-    QObject::connect(&loginDig,SIGNAL(loginSuccess(int)),&addSavingsDig,SLOT(setUserId(int)));
-    QObject::connect(&addSavingsDig,SIGNAL(flushSavings()),&mainWd,SLOT(receiveFlush()));
-    QObject::connect(&modifySavingsDig,SIGNAL(flushSavings()),&mainWd,SLOT(receiveFlush()));
-    QObject::connect(&mainWd,SIGNAL(modifySavings(int,QString,QString)),&modifySavingsDig,SLOT(receiveModify(int,QString,QString)));
+    QObject::connect(&loginDig,&LoginDialog::loginSuccess,&mainWd,&MainWindow::receiveLogin);
+    QObject::connect(&loginDig,&LoginDialog::registSignal,&registDig,&RegistDialog::receiveRegist);
+    QObject::connect(&registDig,&RegistDialog::returnLogin,&loginDig,&LoginDialog::receiveReturn);
+    QObject::connect(&loginDig,&LoginDialog::quit,&a,&QApplication::quit);
+    QObject::connect(&mainWd,&MainWindow::addSavings,&addSavingsDig,&AddSavingsDialog::receiveAdd);
+    QObject::connect(&loginDig,&LoginDialog::loginSuccess,&addSavingsDig,&AddSavingsDialog::setUserId);
+    QObject::connect(&addSavingsDig,&AddSavingsDialog::flushMainWindow,&mainWd,&MainWindow::receiveFlush);
+    QObject::connect(&modifySavingsDig,&ModifySavingsDialog::flushMainWindow,&mainWd,&MainWindow::receiveFlush);
+    QObject::connect(&mainWd,&MainWindow::modifySavings,&modifySavingsDig,&ModifySavingsDialog::receiveModify);
+    QObject::connect(&mainWd,&MainWindow::AddConsume,&addConsumeRecordDig,&AddConsumeRecordDialog::receiveAddConsume);
+    QObject::connect(&addConsumeRecordDig,&AddConsumeRecordDialog::flushMainWindow,&mainWd,&MainWindow::receiveFlush);
     loginDig.show();
     return a.exec();
 }

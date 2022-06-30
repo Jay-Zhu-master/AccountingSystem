@@ -45,7 +45,7 @@ void AddSavingsDialog::on_conformBtn_clicked(){
         QMessageBox::information(this,"提示","添加失败，请重试!");
         return;
     }
-    emit flushSavings();
+    emit flushMainWindow();
     this->hide();
 }
 void AddSavingsDialog::on_returnBtn_clicked(){

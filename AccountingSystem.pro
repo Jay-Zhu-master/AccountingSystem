@@ -17,6 +17,7 @@ QT += sql
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    addconsumerecorddialog.cpp \
     addsavingsdialog.cpp \
     dbsetting.cpp \
     logindialog.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
     registdialog.cpp
 
 HEADERS += \
+    addconsumerecorddialog.h \
     addsavingsdialog.h \
     dbsetting.h \
     logindialog.h \
@@ -34,6 +36,7 @@ HEADERS += \
     registdialog.h
 
 FORMS += \
+    addconsumerecorddialog.ui \
     addsavingsdialog.ui \
     logindialog.ui \
     mainwindow.ui \

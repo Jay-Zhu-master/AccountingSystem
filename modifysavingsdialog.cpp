@@ -41,7 +41,7 @@ void ModifySavingsDialog::on_conformBtn_clicked(){
     query.exec(sql);
     QMessageBox::information(this,"提示","修改成功!");
     this->hide();
-    emit flushSavings();
+    emit flushMainWindow();
 }
 void ModifySavingsDialog::on_returnBtn_clicked(){
     this->hide();
