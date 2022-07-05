@@ -66,9 +66,26 @@ void MainWindow::on_modifyBtn_clicked(){
 
 void MainWindow::on_selectRecordBtn_clicked(){}
 void MainWindow::on_addRecordBtn_clicked(){
-    emit AddConsume(this->user_id,this->saving_system);
+    emit addConsume(this->user_id,this->saving_system);
 }
-void MainWindow::on_modifyRecordBtn_clicked(){}
+void MainWindow::on_modifyRecordBtn_clicked(){
+    QList<QTableWidgetItem*> items = this->ui->recordTableWidget->selectedItems();
+    if(items.isEmpty()){
+        QMessageBox::warning(this,"警告","请选择一行！");
+        return;
+    }
+    if(items.length() > 1){
+        int t = items[0]->row();
+        for(int i = 1; i < items.length(); i ++){
+            if(t != items[i]->row()){
+                QMessageBox::warning(this,"警告","只能选择一行！");
+                return;
+            }
+        }
+    }
+
+    emit modifyConsume(this->ui->recordTableWidget->item(items[0]->row(),5)->text().toInt(),this->saving_system);
+}
 void MainWindow::on_deleteRecordBtn_clicked(){}
 
 void MainWindow::flushSavingsTabView(){
@@ -114,7 +131,9 @@ void MainWindow::flushConsumeRecordTabView(){
         this->ui->recordTableWidget->setItem(this->ui->recordTableWidget->rowCount()-1,2,new QTableWidgetItem(QString(query.value("consume_mode").toInt() == 1 ? "-" : "+") +  query.value("money").toString()));
         this->ui->recordTableWidget->setItem(this->ui->recordTableWidget->rowCount()-1,3,new QTableWidgetItem(query.value("detail").toString()));
         this->ui->recordTableWidget->setItem(this->ui->recordTableWidget->rowCount()-1,4,new QTableWidgetItem(query.value("consume_time").toString()));
+        this->ui->recordTableWidget->setItem(this->ui->recordTableWidget->rowCount()-1,5,new QTableWidgetItem(query.value("id").toString()));
     }
+    this->ui->recordTableWidget->hideColumn(5);
     this->ui->recordTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     this->ui->recordTableWidget->horizontalHeader()->setSectionResizeMode(4,QHeaderView::ResizeToContents);
 }

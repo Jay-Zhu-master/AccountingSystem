@@ -5,6 +5,7 @@
 #include "addsavingsdialog.h"
 #include "modifysavingsdialog.h"
 #include "addconsumerecorddialog.h"
+#include "modifyconsumerecorddialog.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
@@ -16,6 +17,7 @@ int main(int argc, char *argv[])
     AddSavingsDialog addSavingsDig;
     ModifySavingsDialog modifySavingsDig;
     AddConsumeRecordDialog addConsumeRecordDig;
+    ModifyConsumeRecordDialog modifyConsumRecordDig;
     DBSetting db;
 
     mainWd.setDB(db.getDb());
@@ -32,8 +34,10 @@ int main(int argc, char *argv[])
     QObject::connect(&addSavingsDig,&AddSavingsDialog::flushMainWindow,&mainWd,&MainWindow::receiveFlush);
     QObject::connect(&modifySavingsDig,&ModifySavingsDialog::flushMainWindow,&mainWd,&MainWindow::receiveFlush);
     QObject::connect(&mainWd,&MainWindow::modifySavings,&modifySavingsDig,&ModifySavingsDialog::receiveModify);
-    QObject::connect(&mainWd,&MainWindow::AddConsume,&addConsumeRecordDig,&AddConsumeRecordDialog::receiveAddConsume);
+    QObject::connect(&mainWd,&MainWindow::addConsume,&addConsumeRecordDig,&AddConsumeRecordDialog::receiveAddConsume);
+    QObject::connect(&mainWd,&MainWindow::modifyConsume,&modifyConsumRecordDig,&ModifyConsumeRecordDialog::receiveModifyConsume);
     QObject::connect(&addConsumeRecordDig,&AddConsumeRecordDialog::flushMainWindow,&mainWd,&MainWindow::receiveFlush);
+    QObject::connect(&modifyConsumRecordDig,&ModifyConsumeRecordDialog::flushMainWindow,&mainWd,&MainWindow::receiveFlush);
     loginDig.show();
     return a.exec();
 }

@@ -41,6 +41,7 @@ public slots:
 signals:
     void addSavings();
     void modifySavings(int saving_id,QString savingsSystem,QString balance);
-    void AddConsume(int user_id,QHash<QString,int> saving_system);
+    void addConsume(int user_id,QHash<QString,int> saving_system);
+    void modifyConsume(int recordId,QHash<QString,int> saving_system);
 };
 #endif // MAINWINDOW_H

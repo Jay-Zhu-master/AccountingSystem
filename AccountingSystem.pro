@@ -23,6 +23,7 @@ SOURCES += \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
+    modifyconsumerecorddialog.cpp \
     modifysavingsdialog.cpp \
     registdialog.cpp
 
@@ -32,6 +33,7 @@ HEADERS += \
     dbsetting.h \
     logindialog.h \
     mainwindow.h \
+    modifyconsumerecorddialog.h \
     modifysavingsdialog.h \
     registdialog.h
 
@@ -40,6 +42,7 @@ FORMS += \
     addsavingsdialog.ui \
     logindialog.ui \
     mainwindow.ui \
+    modifyconsumerecorddialog.ui \
     modifysavingsdialog.ui \
     registdialog.ui
 

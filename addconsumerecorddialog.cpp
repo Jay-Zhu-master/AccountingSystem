@@ -83,7 +83,9 @@ void AddConsumeRecordDialog::on_conformBtn_clicked(){
     this->hide();
 }
 
-void AddConsumeRecordDialog::on_returnBtn_clicked(){}
+void AddConsumeRecordDialog::on_returnBtn_clicked(){
+    this->hide();
+}
 
 
 void AddConsumeRecordDialog::on_consumeChkBox_stateChanged(){
