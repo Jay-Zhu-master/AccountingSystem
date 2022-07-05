@@ -98,6 +98,9 @@
        <property name="text">
         <string>用户名：</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
        <property name="margin">
         <number>5</number>
        </property>
@@ -112,7 +115,16 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>密    码：</string>
+        <string>密  码：</string>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>false</bool>
        </property>
        <property name="margin">
         <number>5</number>

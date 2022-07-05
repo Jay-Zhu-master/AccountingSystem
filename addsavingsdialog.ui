@@ -33,11 +33,43 @@
      </property>
      <item row="3" column="2">
       <widget class="QPushButton" name="returnBtn">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="focusPolicy">
         <enum>Qt::TabFocus</enum>
        </property>
        <property name="text">
         <string>返回</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="2">
+      <widget class="QLineEdit" name="balanceLE">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QPushButton" name="conformBtn">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="baseSize">
+        <size>
+         <width>4</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>确定</string>
        </property>
       </widget>
      </item>
@@ -51,13 +83,6 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1" colspan="2">
-      <widget class="QLineEdit" name="balanceLE">
-       <property name="focusPolicy">
-        <enum>Qt::StrongFocus</enum>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="baseSize">
@@ -67,7 +92,10 @@
         </size>
        </property>
        <property name="text">
-        <string>余        额：</string>
+        <string>余    额：</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
@@ -82,18 +110,8 @@
        <property name="text">
         <string>存款位置：</string>
        </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QPushButton" name="conformBtn">
-       <property name="baseSize">
-        <size>
-         <width>4</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>确定</string>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
