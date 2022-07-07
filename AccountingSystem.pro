@@ -17,34 +17,34 @@ QT += sql
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    addconsumerecorddialog.cpp \
-    addsavingsdialog.cpp \
-    dbsetting.cpp \
-    logindialog.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    modifyconsumerecorddialog.cpp \
-    modifysavingsdialog.cpp \
-    registdialog.cpp
+    src/addconsumerecorddialog.cpp \
+    src/addsavingsdialog.cpp \
+    src/dbsetting.cpp \
+    src/logindialog.cpp \
+    src/main.cpp \
+    src/mainwindow.cpp \
+    src/modifyconsumerecorddialog.cpp \
+    src/modifysavingsdialog.cpp \
+    src/registdialog.cpp
 
 HEADERS += \
-    addconsumerecorddialog.h \
-    addsavingsdialog.h \
-    dbsetting.h \
-    logindialog.h \
-    mainwindow.h \
-    modifyconsumerecorddialog.h \
-    modifysavingsdialog.h \
-    registdialog.h
+    headers/addconsumerecorddialog.h \
+    headers/addsavingsdialog.h \
+    headers/dbsetting.h \
+    headers/logindialog.h \
+    headers/mainwindow.h \
+    headers/modifyconsumerecorddialog.h \
+    headers/modifysavingsdialog.h \
+    headers/registdialog.h
 
 FORMS += \
-    addconsumerecorddialog.ui \
-    addsavingsdialog.ui \
-    logindialog.ui \
-    mainwindow.ui \
-    modifyconsumerecorddialog.ui \
-    modifysavingsdialog.ui \
-    registdialog.ui
+    ui/addconsumerecorddialog.ui \
+    ui/addsavingsdialog.ui \
+    ui/logindialog.ui \
+    ui/mainwindow.ui \
+    ui/modifyconsumerecorddialog.ui \
+    ui/modifysavingsdialog.ui \
+    ui/registdialog.ui
 
 CONFIG(release):DESTDIR = $$PWD/../bin
 CONFIG(debug, debug|release):DESTDIR = $$PWD/../bin 
