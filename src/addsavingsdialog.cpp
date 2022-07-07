@@ -37,12 +37,9 @@ void AddSavingsDialog::on_conformBtn_clicked(){
     }
     sql = QString("insert into user_savings(user_id,saving_system,balance) values (%1,'%2',%3);")
             .arg(this->user_id).arg(this->ui->savingSystemLE->text()).arg(this->ui->balanceLE->text().toDouble());
-    qDebug() << sql;
+//    qDebug() << sql;
 
-    if(query.exec(sql)){
-        QMessageBox::information(this,"提示","添加成功!");
-    }else{
-        QMessageBox::information(this,"提示","添加失败，请重试!");
+    if(!DBSetting::execSql(this,query,sql,"警告","增加失败，错误代码 : ")){
         return;
     }
     emit flushMainWindow();
@@ -60,6 +57,6 @@ void AddSavingsDialog::receiveAdd(){
 }
 
 void AddSavingsDialog::setUserId(int user_id){
-    qDebug() << user_id;
+//    qDebug() << user_id;
     this->user_id = user_id;
 }

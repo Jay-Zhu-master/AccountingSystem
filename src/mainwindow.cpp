@@ -44,8 +44,10 @@ void MainWindow::on_delSavingsBtn_clicked(){
     for(int i = 0; i < this->ui->savingsTabWidgets->selectedItems().length(); i++){
         sql = QString("delete from user_savings where id = %1").
                 arg(this->ui->savingsTabWidgets->item(1,this->ui->savingsTabWidgets->selectedItems()[i]->column())->text());
-        qDebug() << sql;
-        query.exec(sql);
+//        qDebug() << sql;
+        if(!DBSetting::execSql(this,query,sql,"错误","错误代码 : ")){
+            return;
+        }
     }
     QMessageBox::information(this,"提示","删除成功！");
     this->flushSavingsTabView();
@@ -86,16 +88,49 @@ void MainWindow::on_modifyRecordBtn_clicked(){
 
     emit modifyConsume(this->ui->recordTableWidget->item(items[0]->row(),5)->text().toInt(),this->saving_system);
 }
-void MainWindow::on_deleteRecordBtn_clicked(){}
+void MainWindow::on_deleteRecordBtn_clicked(){
+    QSqlQuery query;
+    QString sql;
+    if(this->ui->recordTableWidget->selectedItems().length() == 0){
+        QMessageBox::information(this,"提示","请单击选择需要删除的数据！");
+        return;
+    }
+    for(int i = 0; i < this->ui->recordTableWidget->selectedItems().length(); i++){
+        sql = QString("update user_savings set balance = CONVERT(balance - %1,DECIMAL(10,2)) where id in (select saving_system_id from expense_calendar where id = %2)")
+                .arg(this->ui->recordTableWidget->item( this->ui->recordTableWidget->selectedItems()[i]->row(),2)->text())
+                .arg(this->ui->recordTableWidget->item( this->ui->recordTableWidget->selectedItems()[i]->row(),5)->text());
+        if(!DBSetting::execSql(this,query,sql,"错误","错误代码 : ")){
+            return;
+        }
+
+        sql = QString("delete from expense_calendar where id = %1")
+                .arg(this->ui->recordTableWidget->item( this->ui->recordTableWidget->selectedItems()[i]->row(),5)->text());
+        if(!DBSetting::execSql(this,query,sql,"错误","错误代码 : ")){
+            return;
+        }
+    }
+    QMessageBox::information(this,"提示","删除成功");
+    receiveFlush();
+}
 
 void MainWindow::flushSavingsTabView(){
-    QString sql = QString("select * from user_savings where user_id = %1 order by id asc;").arg(this->user_id);
+    QString sql;
     QSqlQuery query;
     QStringList stringList;
     this->ui->savingsTabWidgets->clear();
     this->saving_system.clear();
-    qDebug() << sql;
-    query.exec(sql);
+//    qDebug() << sql;
+    sql = QString("select case when sum(balance) is not null then CONVERT(sum(balance),DECIMAL(10,2)) else 0 end from user_savings where user_id = %1;").arg(this->user_id);
+    if(!DBSetting::execSql(this,query,sql,"错误","错误代码 : ")){
+        return;
+    }
+    query.next();
+    this->ui->groupBox->setTitle("余额详情 总计 : ￥" + query.value(0).toString());
+
+    sql = QString("select * from user_savings where user_id = %1 order by id asc;").arg(this->user_id);
+    if(!DBSetting::execSql(this,query,sql,"错误","错误代码 : ")){
+        return;
+    }
     this->ui->savingsTabWidgets->setRowCount(2);
     this->ui->savingsTabWidgets->setColumnCount(0);
     while (query.next()) {
@@ -119,11 +154,10 @@ void MainWindow::flushConsumeRecordTabView(){
     this->ui->recordTableWidget->setRowCount(0);
     sql = QString("SELECT id, user_id, name, saving_system, saving_system_id, consume_mode,money, detail, date_format(consume_time,'%Y/%m/%d %H:%i:%s') consume_time, create_time"
                   " FROM accounting_system.expense_calendar where user_id = %1 order by consume_time desc;").arg(this->user_id);
-    qDebug() << sql;
-    query.exec(sql);
-    qDebug() << query.lastError().type();
-    qDebug() << query.lastError().text();
-
+//    qDebug() << sql;
+    if(!DBSetting::execSql(this,query,sql,"错误","错误代码 : ")){
+        return;
+    }
     while(query.next()){
         this->ui->recordTableWidget->setRowCount(this->ui->recordTableWidget->rowCount()+1);
         this->ui->recordTableWidget->setItem(this->ui->recordTableWidget->rowCount()-1,0,new QTableWidgetItem(query.value("name").toString()));

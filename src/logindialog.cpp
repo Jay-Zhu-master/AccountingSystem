@@ -39,8 +39,10 @@ void LoginDialog::on_loginBtn_clicked()
         return;
     }
     sql = QString("select count(1) from user_info where username = '%1';").arg(this->ui->usernameLE->text());
-    qDebug() << sql;
-    query.exec(sql);
+//    qDebug() << sql;
+    if(!DBSetting::execSql(this,query,sql,"错误","错误代码 : ")){
+        return;
+    }
     query.next();
     if (query.value(0).toInt() == 0)
     {
@@ -48,10 +50,12 @@ void LoginDialog::on_loginBtn_clicked()
         return;
     }
     sql = QString("select * from user_info where username = '%1';").arg(this->ui->usernameLE->text());
-    qDebug() << sql;
-    query.exec(sql);
+//    qDebug() << sql;
+    if(!DBSetting::execSql(this,query,sql,"错误","错误代码 : ")){
+        return;
+    }
     query.next();
-    qDebug() << QString(QCryptographicHash::hash(this->ui->passwordLE->text().toLatin1(),QCryptographicHash::Md5).toHex());
+//    qDebug() << QString(QCryptographicHash::hash(this->ui->passwordLE->text().toLatin1(),QCryptographicHash::Md5).toHex());
     if (QString(QCryptographicHash::hash(this->ui->passwordLE->text().toLatin1(),QCryptographicHash::Md5).toHex())
             != query.value("password").toString())
     {
@@ -59,7 +63,7 @@ void LoginDialog::on_loginBtn_clicked()
         return;
     }
     this->hide();
-    qDebug() << query.value("user_id");
+//    qDebug() << query.value("user_id");
     this->user_id = query.value("user_id").toInt();
     emit loginSuccess(this->user_id);
 }

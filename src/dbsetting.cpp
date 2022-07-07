@@ -1,4 +1,5 @@
 #include "dbsetting.h"
+#include <QMessageBox>
 
 DBSetting::DBSetting()
 {
@@ -18,4 +19,12 @@ DBSetting::DBSetting()
 
 QSqlDatabase DBSetting::getDb(){
     return this->db;
+}
+
+bool DBSetting::execSql(QWidget *parent,QSqlQuery &query, QString sql, QString title, QString errorMsg){
+    if(!query.exec(sql)){
+        QMessageBox::warning(parent,title,errorMsg + query.lastError().text());
+        return false;
+    }
+    return true;
 }

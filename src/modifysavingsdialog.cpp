@@ -37,8 +37,10 @@ void ModifySavingsDialog::on_conformBtn_clicked(){
         return;
     }
     sql = QString("update user_savings set balance = %1 where id = %2;").arg(this->ui->balanceLE->text()).arg(this->saving_id);
-    qDebug() << sql;
-    query.exec(sql);
+//    qDebug() << sql;
+    if(!DBSetting::execSql(this,query,sql,"错误","错误代码 : ")){
+        return;
+    }
     QMessageBox::information(this,"提示","修改成功!");
     this->hide();
     emit flushMainWindow();

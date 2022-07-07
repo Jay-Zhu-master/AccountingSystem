@@ -11,7 +11,7 @@ class DBSetting
 public:
     DBSetting();
     QSqlDatabase getDb();
-
+    static bool execSql(QWidget *parent,QSqlQuery &query,QString sql,QString title, QString errorMsg);
 private:
     QSqlDatabase db;
 };
