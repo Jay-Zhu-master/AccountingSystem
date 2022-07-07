@@ -3,6 +3,7 @@
 #include "ui_registdialog.h"
 #include "dbsetting.h"
 #include <QMessageBox>
+#include <QCryptographicHash>
 
 RegistDialog::RegistDialog(QWidget *parent) :
     QDialog(parent),
@@ -45,7 +46,7 @@ void RegistDialog::on_conformBtn_clicked(){
     }
     sql1 = QString("insert into user_info(username,password,wight) values ('%1','%2',1)")
             .arg(this->ui->usernameLE->text())
-            .arg(this->ui->passwordLE->text());
+            .arg(QString(QCryptographicHash::hash(this->ui->passwordLE->text().toLatin1(),QCryptographicHash::Md5).toHex()));
     qDebug() << sql1;
     query.exec(sql1);
     QMessageBox::information(this,"提示","注册成功！");

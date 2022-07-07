@@ -4,8 +4,9 @@
 #include <QDialog>
 #include "dbsetting.h"
 
-namespace Ui {
-class LoginDialog;
+namespace Ui
+{
+    class LoginDialog;
 }
 
 class LoginDialog : public QDialog

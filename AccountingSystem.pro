@@ -46,7 +46,19 @@ FORMS += \
     modifysavingsdialog.ui \
     registdialog.ui
 
+CONFIG(release):DESTDIR = $$PWD/../bin
+CONFIG(debug, debug|release):DESTDIR = $$PWD/../bin 
+
+OBJECTS_DIR = $$DESTDIR/.obj
+MOC_DIR = $$DESTDIR/.moc
+RCC_DIR = $$DESTDIR/.qrc
+UI_DIR = $$DESTDIR/.ui
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    app.icon
+

@@ -4,8 +4,9 @@
 #include <QDialog>
 #include "dbsetting.h"
 
-namespace Ui {
-class AddConsumeRecordDialog;
+namespace Ui
+{
+    class AddConsumeRecordDialog;
 }
 
 class AddConsumeRecordDialog : public QDialog
@@ -24,14 +25,14 @@ private slots:
     void on_depositChkBox_stateChanged();
 
 public slots:
-    void receiveAddConsume(int user_id,QHash<QString,int> saving_system);
+    void receiveAddConsume(int user_id, QHash<QString, int> saving_system);
 signals:
     void flushMainWindow();
 
 private:
     Ui::AddConsumeRecordDialog *ui;
     int user_id;
-    QHash<QString,int> saving_system;
+    QHash<QString, int> saving_system;
     QSqlDatabase db;
 };
 
