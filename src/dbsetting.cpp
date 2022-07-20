@@ -5,11 +5,11 @@ DBSetting::DBSetting()
 {
     qDebug() << QSqlDatabase::drivers();
     this->db = QSqlDatabase::addDatabase("QMYSQL");
-    this->db.setHostName("101.43.215.142");
+    this->db.setHostName("localhost");
     this->db.setPort(3306);
     this->db.setDatabaseName("accounting_system");
-    this->db.setUserName("jayzhu");
-    this->db.setPassword("Zlh123..");
+    this->db.setUserName("root");
+    this->db.setPassword("123456");
     if(this->db.open()){
         qDebug() << "ok";
     }else{
