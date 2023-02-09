@@ -1,6 +1,7 @@
 #include "modifysavingsdialog.h"
 #include "ui_modifysavingsdialog.h"
 #include <QMessageBox>
+#include <QRegularExpression>
 
 ModifySavingsDialog::ModifySavingsDialog(QWidget *parent) :
     QDialog(parent),
@@ -31,8 +32,8 @@ void ModifySavingsDialog::receiveModify(int saving_id,QString savingsSystem,QStr
 void ModifySavingsDialog::on_conformBtn_clicked(){
     QString sql;
     QSqlQuery query;
-    QRegExp rx("-?[0-9]+(.[0-9]{1,2})?$");
-    if(! rx.exactMatch(this->ui->balanceLE->text())){
+    QRegularExpression rx("-?[0-9]+(.[0-9]{1,2})?$");
+    if(! rx.match(this->ui->balanceLE->text()).hasMatch()){
         QMessageBox::warning(this,"注意！","金额格式不正确!");
         return;
     }

@@ -53,7 +53,7 @@ void ModifyConsumeRecordDialog::receiveModifyConsume(int recordId,QHash<QString,
 void ModifyConsumeRecordDialog::on_conformBtn_clicked(){
     QString sql;
     QSqlQuery query;
-    QRegExp rx("^[0-9]+(.[0-9]{1,2})?$");
+    QRegularExpression rx("^[0-9]+(.[0-9]{1,2})?$");
     if(this->ui->nameLE->text() == ""){
         QMessageBox::warning(this,"警告","请输入消费名称！");
         return;
@@ -66,7 +66,7 @@ void ModifyConsumeRecordDialog::on_conformBtn_clicked(){
         QMessageBox::warning(this,"警告","请输入消费金额！");
         return;
     }
-    if(! rx.exactMatch(this->ui->moneyLE->text())){
+    if(! rx.match(this->ui->moneyLE->text()).hasMatch()){
         QMessageBox::warning(this,"警告","金额格式不正确!");
         return;
     }

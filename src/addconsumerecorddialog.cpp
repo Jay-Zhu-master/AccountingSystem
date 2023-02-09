@@ -42,7 +42,7 @@ void AddConsumeRecordDialog::receiveAddConsume(int user_id,QHash<QString,int> sa
 void AddConsumeRecordDialog::on_conformBtn_clicked(){
     QString sql;
     QSqlQuery query;
-    QRegExp rx("^[0-9]+(.[0-9]{1,2})?$");
+    static QRegularExpression rx("^[0-9]+(.[0-9]{1,2})?$");
     if(this->ui->nameLE->text() == ""){
         QMessageBox::warning(this,"警告","请输入消费名称！");
         return;
@@ -55,7 +55,7 @@ void AddConsumeRecordDialog::on_conformBtn_clicked(){
         QMessageBox::warning(this,"警告","请输入消费金额！");
         return;
     }
-    if(! rx.exactMatch(this->ui->moneyLE->text())){
+    if(! rx.match(this->ui->moneyLE->text()).hasMatch()){
         QMessageBox::warning(this,"警告","金额格式不正确!");
         return;
     }
@@ -66,22 +66,17 @@ void AddConsumeRecordDialog::on_conformBtn_clicked(){
     }
     sql = QString("INSERT INTO expense_calendar (user_id, name, saving_system, saving_system_id, consume_mode, money, detail, consume_time) "
           "VALUES(%1, '%2', '%3', %4, %5, %6, '%7','%8');")
-            .arg(this->user_id)
-            .arg(this->ui->nameLE->text())
-            .arg(this->ui->savingSystemComBox->currentText())
-            .arg(this->saving_system.value(this->ui->savingSystemComBox->currentText()))
-            .arg(this->ui->consumeChkBox->checkState() == Qt::CheckState::Checked ? "1":"2")
-            .arg(this->ui->moneyLE->text().toDouble())
-            .arg(this->ui->detailTXE->document()->toRawText())
-            .arg(this->ui->consumeTimeTME->dateTime().toString("yyyy-MM-dd hh:mm:ss"));
+            .arg(this->user_id).arg(this->ui->nameLE->text())
+            .arg(this->ui->savingSystemComBox->currentText(),this->saving_system.value(this->ui->savingSystemComBox->currentText()))
+            .arg(this->ui->consumeChkBox->checkState() == Qt::CheckState::Checked ? "1":"2").arg(this->ui->moneyLE->text().toDouble())
+            .arg(this->ui->detailTXE->document()->toRawText(),this->ui->consumeTimeTME->dateTime().toString("yyyy-MM-dd hh:mm:ss"));
     qDebug() << sql;
     if(!DBSetting::execSql(this,query,sql,"警告","增加失败，错误代码 : ")){
         return;
     }
     sql = QString("update user_savings set balance = CONVERT(balance %1 %2,DECIMAL(10,2)) where id = %3")
             .arg(this->ui->consumeChkBox->checkState() == Qt::CheckState::Checked? "-":"+")
-            .arg(this->ui->moneyLE->text())
-            .arg(this->saving_system.value(this->ui->savingSystemComBox->currentText()));
+            .arg(this->ui->moneyLE->text(),this->saving_system.value(this->ui->savingSystemComBox->currentText()));
     qDebug() << sql;
     if(!DBSetting::execSql(this,query,sql,"警告","增加失败，错误代码 : ")){
         return;

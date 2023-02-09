@@ -1,6 +1,6 @@
 #include "addsavingsdialog.h"
 #include "ui_addsavingsdialog.h"
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QMessageBox>
 
 AddSavingsDialog::AddSavingsDialog(QWidget *parent) :
@@ -26,12 +26,12 @@ void AddSavingsDialog::setDB(QSqlDatabase db){
 void AddSavingsDialog::on_conformBtn_clicked(){
     QSqlQuery query;
     QString sql;
-    QRegExp rx("-?[0-9]+(.[0-9]{1,2})?$");
+    QRegularExpression rx("-?[0-9]+(.[0-9]{1,2})?$");
     if(this->ui->savingSystemLE->text() == ""){
         QMessageBox::warning(this,"注意！","请输入存款位置！");
         return;
     }
-    if(! rx.exactMatch(this->ui->balanceLE->text())){
+    if(! rx.match(this->ui->balanceLE->text()).hasMatch()){
         QMessageBox::warning(this,"注意！","金额格式不正确!");
         return;
     }
